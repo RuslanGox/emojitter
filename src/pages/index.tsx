@@ -3,7 +3,7 @@ import Head from "next/head";
 
 import { api, type RouterOutputs } from "~/utils/api";
 import React, { useState } from "react";
-import { SignInButton, useUser } from "@clerk/nextjs";
+import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import Image from "next/image";
 
 import dayjs from "dayjs";
@@ -30,12 +30,15 @@ const CreatePostWizard = () => {
 
   return (
     <div className="flex w-full gap-3">
-      <Image
-        src={user.profileImageUrl}
-        alt={"Profile Image"}
-        width={56}
-        height={56}
-        className="rounded-full"
+      <UserButton
+        appearance={{
+          elements: {
+            userButtonAvatarBox: {
+              width: 56,
+              height: 56,
+            },
+          },
+        }}
       />
       <input
         placeholder="Type some emojis!"

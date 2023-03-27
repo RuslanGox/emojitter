@@ -10,7 +10,10 @@ import { z } from "zod";
 const filterUserForClient = (user: User) => {
   return {
     id: user.id,
-    username: user.username ?? user.firstName,
+    username:
+      user.username ??
+      user.emailAddresses[0]?.emailAddress.split("@")[0] ??
+      user.firstName,
     profileImageUrl: user.profileImageUrl,
   };
 };
