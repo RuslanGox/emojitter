@@ -68,7 +68,7 @@ export const postsRouter = createTRPCRouter({
       z.object({
         // still works with number input.
         // what about whitespaces
-        content: z.string().emoji().min(1).max(280),
+        content: z.string().emoji("Only emojis are allowed").min(1).max(280),
       })
     )
     .mutation(async ({ ctx, input }) => {
