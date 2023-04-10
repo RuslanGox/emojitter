@@ -10,12 +10,14 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { LoadingPage, LoadingSpinner } from "~/components/loading";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 dayjs.extend(relativeTime);
 
 const CreatePostWizard = () => {
   const { user } = useUser();
 
+  // Upgrade to react-hook-form + zod for validation
   const [input, setInput] = useState("");
 
   const ctx = api.useContext();
@@ -38,14 +40,11 @@ const CreatePostWizard = () => {
   if (!user) return null;
 
   return (
-    <div className="flex w-full gap-3">
+    <div className="slate flex w-full gap-3">
       <UserButton
         appearance={{
           elements: {
-            userButtonAvatarBox: {
-              width: 56,
-              height: 56,
-            },
+            userButtonAvatarBox: "h-14 w-14 shadow-wh hover:shadow-slate-200",
           },
         }}
       />
@@ -92,9 +91,13 @@ const PostView = (props: PostWithUser) => {
       />
       <div className="flex flex-col">
         <div className="flex">
-          <span className="text-slate-300">{`@${author.username}`}</span>
+          <Link href={`/@${author.username}`}>
+            <span className="text-slate-300">{`@${author.username}`}</span>
+          </Link>
           <span className="px-1">·</span>
-          <span>{dayjs(post.createdAt).fromNow()}</span>
+          <Link href={`/post/${post.id}`}>
+            <span>{dayjs(post.createdAt).fromNow()}</span>
+          </Link>
         </div>
         <span className="text-2xl">{post.content}</span>
       </div>
@@ -136,7 +139,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex h-screen justify-center">
         <div className="h-full w-full border-x border-slate-400 md:max-w-2xl">
-          <div className="flex border-b border-slate-400 p-4">
+          <div className="flex h-24 border-b border-slate-400 p-4">
             {!isSignedIn && (
               <div className="flex justify-center">
                 <SignInButton />
